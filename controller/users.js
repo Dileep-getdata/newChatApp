@@ -22,10 +22,14 @@ exports.postChatSignup= async(req,res)=>{
         const saltrounds=10;
         bcrypt.hash(password,saltrounds, async(err,hash)=>{   
             const userEmail=await Users.findAll({where:{email}});
+            const userPhone=await Users.findAll({where:{phoneNo}});
             console.log('checkmail',userEmail);             
             if(userEmail.length>0 && email===userEmail[0].email ){                
                 return res.status(404).json({success:false,message:'Exiting Email Id'}); 
-            }                
+            } 
+            else if(userPhone.length>0 && phoneNo===userPhone[0].phoneNo){
+                return res.status(404).json({success:false,message:'Existing Phone No'});
+            }
                 await Users.create({
                     userName:name,
                     email:email,

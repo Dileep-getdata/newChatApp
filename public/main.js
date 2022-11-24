@@ -1,9 +1,9 @@
 
 const signupForm=document.getElementById('signUp_form');
 console.log(signupForm);
+
 signupForm.addEventListener('submit',(e)=>{
-    e.preventDefault();
-    console.log('signup:---')
+    e.preventDefault();    
     const nameI=e.target.name.value;
     const email=e.target.email.value;
     const phoneNo=e.target.phoneNo.value;
@@ -23,7 +23,7 @@ signupForm.addEventListener('submit',(e)=>{
             document.getElementById('email').value='';
             document.getElementById('phoneNo').value='';
             document.getElementById('password').value='';
-            window.location.href="../Login/login.html";
+            // window.location.href="../Login/login.html";
         }else{
             throw new Error('Aleary exits');
         }       

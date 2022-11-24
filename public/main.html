@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
     <title>Chat App</title>
+    <script src="./main.js" defer></script>
 </head>
 <body>
     <h1>CHAT-APP</h1>
     <div>
-        <form action="" method="POST">
+        <form action="" method="POST" id="signUp_form">
             <label for="name">Name</label>
             <input type="text" id="name" name="name">
             <label for="email">Email</label>
@@ -22,6 +23,7 @@
             <button type="submit">Register</button>
         </form>
     </div>
-    
+    <div id="message"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js" integrity="sha512-OdkysyYNjK4CZHgB+dkw9xQp66hZ9TLqmS2vXaBrftfyJeduVhyy1cOfoxiKdi4/bfgpco6REu6Rb+V2oVIRWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>
