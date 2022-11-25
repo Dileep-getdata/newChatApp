@@ -26,9 +26,12 @@ form button{
 
 }
 #displayMsg li:nth-child(odd){
-    background-color: gray;
+    background-color: #333;
+    color:white;
+    text-align: left;
 }
 #displayMsg li:nth-child(even){
+    text-align: right;
     background-color: white;
     color: black;
 }

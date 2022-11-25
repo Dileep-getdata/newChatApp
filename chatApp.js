@@ -16,6 +16,7 @@ const userRouter=require('./router/users');
 const chatRouter=require('./router/chat');
 
 const Users=require('./models/users');
+const Chat=require('./models/Chat');
 
 
 app.use(express.json());
@@ -30,6 +31,10 @@ app.use((req,res)=>{
     console.log(req.url);
     res.sendFile(path.join(__dirname,`./public/${req.url}`))
 })
+
+Chat.belongsTo(Users,{constrains:true});
+Users.hasMany(Chat);
+
 
 sequelize 
 // .sync({force:true})

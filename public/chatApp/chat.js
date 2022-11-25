@@ -20,3 +20,19 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     }
    
 })
+
+
+const chatMsg=document.getElementById('chatMsg');
+chatMsg.addEventListener('submit',async(e)=>{
+    try{
+        e.preventDefault();
+        const chatMessage=e.target.message.value;
+       const chatPost=await axios.post('http://localhost:3050/chat/chat',{chat:chatMessage},{headers:{'Authentication':token}});
+    
+        console.log(chatPost);
+        document.getElementById('message').value='';
+    }catch(err){
+        console.log(err);
+    }
+   
+})
