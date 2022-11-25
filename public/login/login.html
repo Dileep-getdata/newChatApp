@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="./login.css">
+    <link rel="shortcut icon" href="#">
     <title>Chat App</title>
-    <script src="./main.js" defer></script>
+    <script src="./login.js" defer></script>
 </head>
 <body>
     <h1>CHAT-APP</h1>
     <div>
-        <form action="" method="POST" id="signUp_form">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name">
+        <form action="" method="POST" id="login_form">
+           
             <label for="email">Email</label>
             <input type="email" id="email" name="email">
-            <label for="phoneNo">Phone No</label>
-            <input type="tel" id="phoneNo" name="phoneNo">
+            
             <label for="password">Password</label>
             <input type="password" id="password" name="password">
-            <button type="submit">Register</button>
+            <button type="submit">Log-In</button>
         </form>
+        <button id="signupBtn"><a href="../signup/signup.html">Sign Up</a></button>
     </div>
     <div id="message"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js" integrity="sha512-OdkysyYNjK4CZHgB+dkw9xQp66hZ9TLqmS2vXaBrftfyJeduVhyy1cOfoxiKdi4/bfgpco6REu6Rb+V2oVIRWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

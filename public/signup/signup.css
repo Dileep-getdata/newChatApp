@@ -1,0 +1,36 @@
+body{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+div{   
+    margin: auto;
+    padding: 10px;
+    background-color:bisque;
+}
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+form input{
+    margin-bottom: 10px;
+}
+form button{
+    margin-top: 20px;
+}
+#loginBtn{
+    margin-top: 10px;
+    background-color: bisque;
+    border: none;
+    border-radius: 5px;
+    
+}
+#loginBtn:hover{
+    background-color: rgb(250, 197, 133);
+}
+#loginBtn a{
+    text-decoration: none;
+    color: rgb(241, 123, 123);
+}

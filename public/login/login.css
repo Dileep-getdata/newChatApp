@@ -6,7 +6,7 @@ body{
 div{   
     margin: auto;
     padding: 10px;
-    background-color: aqua;
+    background-color:bisque;
 }
 form {
     display: flex;
@@ -19,4 +19,18 @@ form input{
 }
 form button{
     margin-top: 20px;
+}
+#signupBtn{
+    margin-top: 10px;
+    background-color: bisque;
+    border: none;
+    border-radius: 5px;
+    
+}
+#signupBtn:hover{
+    background-color: rgb(250, 197, 133);
+}
+#signupBtn a{
+    text-decoration: none;
+    color: rgb(241, 123, 123);
 }

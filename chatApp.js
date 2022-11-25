@@ -1,4 +1,6 @@
 const express=require('express');
+const path=require('path');
+const fs=require('fs');
 
 const app=express();
 
@@ -22,12 +24,17 @@ app.use(cors());
 
 app.use('/user',userRouter);
 
+app.use((req,res)=>{
+    console.log(req.url);
+    res.sendFile(path.join(__dirname,`./public/${req.url}`))
+})
+
 sequelize 
 // // .sync({force:true})
 .sync()
 .then((result)=>{
 //     // https.createServer({key:privatekey,cert:certificate},app)
-    app.listen(3050);
+    app.listen(process.env.DB_PORT);
 })
 .catch((err)=>console.log(err));
 
