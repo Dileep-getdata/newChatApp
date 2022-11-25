@@ -1,5 +1,6 @@
 const bcrypt=require('bcrypt');
 const Users=require('../models/Users');
+const jwt=require('jsonwebtoken');
 
 
 function isString(string){
@@ -44,6 +45,11 @@ exports.postChatSignup= async(req,res)=>{
 
     }
 }
+// 
+
+function tokenGenerate(id,user){
+   return jwt.sign({id,user},process.env.TOKEN_SECREATKEY);
+}
 
 // <<<<<<<<<  Checking the LOG-IN details in Database  >>>>>>>>>>
 // 
@@ -55,15 +61,16 @@ exports.postChatLogin=async (req,res)=>{
             res.status(404).json({success:false,message:'Went wrong in Data'})
         }
         const userDetls= await Users.findAll({where:{email:email}});
-        console.log(userDetls===[]);
-        if (userDetls!==undefined || userDetls!==[]){
-            console.log('bycypt:');
+        
+        if (userDetls!==undefined && userDetls.length!==0){
+            
             bcrypt.compare(password,userDetls[0].password,(err,result)=>{
                 if(err){
                     throw new Error('Wrong In data entry');
                 }
                 if(result===true){
-                    return res.status(200).json({success:true,message:'Successfully Log-In'});
+                    const token=tokenGenerate(userDetls[0].id,userDetls[0].userName)                    
+                    return res.status(200).json({success:true,message:'Successfully Log-In',token:token});
                 }else{
                     return res.status(401).json({success:false,message:'Wrong password'});
                 }

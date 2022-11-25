@@ -25,6 +25,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "node": "^19.1.0",
     "sequelize": "^6.25.8"

@@ -14,7 +14,9 @@ loginForm.addEventListener('submit',(e)=>{
     .then(response=>{        
             console.log(response.data.message); 
         if(response.status===200){
-            MesageShow(response.data.message,'green');            
+            MesageShow(response.data.message,'green'); 
+            localStorage.setItem('token',response.data.token);  
+            // console.log(response.data.token);         
             document.getElementById('email').value='';            
             document.getElementById('password').value='';
             // window.location.href="../Login/login.html";
