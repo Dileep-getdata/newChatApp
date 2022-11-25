@@ -20,6 +20,18 @@ form input{
 form button{
     margin-top: 20px;
 }
+#displayMsg li{
+    list-style-type: none;
+    text-align: left;
+
+}
+#displayMsg li:nth-child(odd){
+    background-color: gray;
+}
+#displayMsg li:nth-child(even){
+    background-color: white;
+    color: black;
+}
 .message{
     position: fixed;
     background-color: aliceblue;

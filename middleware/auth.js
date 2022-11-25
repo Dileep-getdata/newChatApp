@@ -7,7 +7,9 @@ exports.authentication=(req,res,next)=>{
         const user=(jwt.verify(token,process.env.TOKEN_SECREATKEY));
 
         User.findByPk(user.id).then(user=>{
+            
             req.user=user;
+            // req.user.update({login:true});
             next();
         })
 

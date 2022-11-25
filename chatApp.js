@@ -13,6 +13,7 @@ dotenv.config();
 const sequelize=require('./util/database');
 
 const userRouter=require('./router/users');
+const chatRouter=require('./router/chat');
 
 const Users=require('./models/users');
 
@@ -23,6 +24,7 @@ const cors=require('cors');
 app.use(cors());
 
 app.use('/user',userRouter);
+app.use('/chat',chatRouter);
 
 app.use((req,res)=>{
     console.log(req.url);
@@ -30,7 +32,7 @@ app.use((req,res)=>{
 })
 
 sequelize 
-// // .sync({force:true})
+// .sync({force:true})
 .sync()
 .then((result)=>{
 //     // https.createServer({key:privatekey,cert:certificate},app)

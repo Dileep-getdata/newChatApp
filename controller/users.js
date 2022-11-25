@@ -69,7 +69,8 @@ exports.postChatLogin=async (req,res)=>{
                     throw new Error('Wrong In data entry');
                 }
                 if(result===true){
-                    const token=tokenGenerate(userDetls[0].id,userDetls[0].userName)                    
+                    const token=tokenGenerate(userDetls[0].id,userDetls[0].userName);
+                                     
                     return res.status(200).json({success:true,message:'Successfully Log-In',token:token});
                 }else{
                     return res.status(401).json({success:false,message:'Wrong password'});
@@ -85,3 +86,5 @@ exports.postChatLogin=async (req,res)=>{
     }
 
 }
+// 
+

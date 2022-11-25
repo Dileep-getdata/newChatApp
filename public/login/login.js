@@ -10,7 +10,7 @@ loginForm.addEventListener('submit',(e)=>{
         email:email,       
         password:password,
     } 
-    axios.post('http://localhost:3050/user/login',login_details)
+    axios.post(`http://localhost:3050/user/login`,login_details)
     .then(response=>{        
             console.log(response.data.message); 
         if(response.status===200){
