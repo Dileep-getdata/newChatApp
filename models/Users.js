@@ -29,6 +29,9 @@ const Users=database.define('users',{
         type:Sequelize.STRING,
         allowNull:false
     },
+    login:{
+        type:Sequelize.BOOLEAN,
+    }
     
 
 });

@@ -19,7 +19,7 @@ loginForm.addEventListener('submit',(e)=>{
             // console.log(response.data.token);         
             document.getElementById('email').value='';            
             document.getElementById('password').value='';
-            // window.location.href="../Login/login.html";
+            window.location.href="../chatApp/chat.html";
         }else{
             throw new Error('Register now');
         }       
