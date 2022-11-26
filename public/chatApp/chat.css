@@ -23,6 +23,8 @@ form button{
 #displayMsg li{
     list-style-type: none;
     text-align: left;
+    margin: 10px;
+    padding: 5px;
 
 }
 #displayMsg li:nth-child(odd){

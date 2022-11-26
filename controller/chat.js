@@ -6,14 +6,15 @@ exports.chatDetails= async(req,res)=>{
         
         req.user.update({login:true});
         const users= await Users.findAll({where:{login:true},attributes:['userName']});
-       return res.status(200).json({users:users});
+        const chatMsg=await Chat.findAll();
+       return res.status(200).json({users:users,chat:chatMsg});
     }catch(err){
         res.status(500).json({success:false,message:err});
     }
 }
 
 exports.chatPost= async(req,res)=>{
-    // try{
+    try{
         const chatMessage=req.body.chat;
         console.log('Chat:--',chatMessage);
         // req.user.update({login:true});
@@ -24,7 +25,7 @@ exports.chatPost= async(req,res)=>{
         })
     //     
        return res.status(200).json();
-    // }catch(err){
-    //     res.status(500).json({success:false,message:err});
-    // }
+    }catch(err){
+        res.status(500).json({success:false,message:err});
+    }
 }

@@ -7,12 +7,19 @@ window.addEventListener('DOMContentLoaded', async ()=>{
         let innerList=`<ul>`
         const response=await axios.get(`http://localhost:3050/chat/chat`,{headers:{'Authentication':token}});
         const usersN=response.data.users;
+        const chatMsgs=response.data.chat;
         usersN.forEach(user=>{
+           
             const firstNme=(user.userName).split(' ')[0];
-            innerList += `<li>${firstNme} Join !</li></ul>`
-            console.log(user.userName);
+            innerList += `<li>${firstNme} Join !</li>`;
+            
         })
-        displayMsg.innerHTML=innerList;
+       
+        chatMsgs.forEach(chatMsg=>{
+            innerList += `<li>${chatMsg.message}</li>`;
+            
+        })
+        displayMsg.innerHTML=innerList+`</ul>`;
 
         
     }catch(err){
@@ -29,7 +36,6 @@ chatMsg.addEventListener('submit',async(e)=>{
         const chatMessage=e.target.message.value;
        const chatPost=await axios.post('http://localhost:3050/chat/chat',{chat:chatMessage},{headers:{'Authentication':token}});
     
-        console.log(chatPost);
         document.getElementById('message').value='';
     }catch(err){
         console.log(err);
