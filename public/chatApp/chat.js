@@ -5,30 +5,48 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     gettingMsg();
    
 })
-
+var lastId=0;
 async function gettingMsg(){
     try{
         const displayMsg= document.getElementById('displayMsg');
+        let oldArr;
+        const newArr=[];
+        
         let innerList=`<ul>`
-        const response=await axios.get(`http://localhost:3050/chat/chat`,{headers:{'Authentication':token}});
+        const response=await axios.get(`http://localhost:3050/chat/chat?lastId=${lastId}`,{headers:{'Authentication':token}});
         const usersN=response.data.users;
         const chatMsgs=response.data.chat;
+        console.log(chatMsg);
         usersN.forEach(user=>{           
             const firstNme=(user.userName).split(' ')[0];
-            innerList += `<li>${firstNme} Join !</li>`;
+            newArr.push(firstNme);
+            // innerList += `<li>${firstNme} Join !</li>`;
             
         })       
         chatMsgs.forEach(chatMsg=>{
-            innerList += `<li>${chatMsg.message}</li>`;
+            newArr.push(chatMsg.message);
+            lastId=chatMsg.id;
+           
+            // innerList += `<li>${chatMsg.message}</li>`;
             
         })
-        displayMsg.innerHTML=innerList+`</ul>`;
+        console.log(newArr);
+        console.log(lastId);
+        if(newArr!==undefined){
+            oldArr.push([...newArr]);
+            console.log(oldArr);
+            localStorage.setItem('msgList',oldArr);
+            newArr=[];
+        }
+        
+        
+        // displayMsg.innerHTML=innerList+`</ul>`;
     }catch(err){
         console.log(err);
     }
 }
 //
-setInterval(()=>gettingMsg(),1000)
+// setInterval(()=>gettingMsg(),1000)
 
 // 
 // 
