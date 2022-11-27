@@ -1,52 +1,78 @@
 const display=document.getElementById('displayMsg');
 const token=localStorage.getItem('token');
 
+
+// oldArr=localStorage.getItem('msgList').split(',');
+var lastId=localStorage.getItem('lastId');
 window.addEventListener('DOMContentLoaded', async ()=>{
-    gettingMsg();
+    displayMsg();
+    gettingMsg();   
+    
    
 })
-var lastId=0;
+
 async function gettingMsg(){
-    try{
-        const displayMsg= document.getElementById('displayMsg');
-        let oldArr;
-        const newArr=[];
-        
-        let innerList=`<ul>`
+    try{              
+        let newArr=[];
+        let lastId=localStorage.getItem('lastId');
         const response=await axios.get(`http://localhost:3050/chat/chat?lastId=${lastId}`,{headers:{'Authentication':token}});
         const usersN=response.data.users;
         const chatMsgs=response.data.chat;
-        console.log(chatMsg);
-        usersN.forEach(user=>{           
-            const firstNme=(user.userName).split(' ')[0];
-            newArr.push(firstNme);
-            // innerList += `<li>${firstNme} Join !</li>`;
-            
-        })       
+        
+        // usersN.forEach(user=>{           
+        //     const firstNme=(user.userName).split(' ')[0]+' joined !';
+        //     newArr.push(firstNme);
+        // })       
+        
         chatMsgs.forEach(chatMsg=>{
             newArr.push(chatMsg.message);
             lastId=chatMsg.id;
-           
-            // innerList += `<li>${chatMsg.message}</li>`;
-            
-        })
-        console.log(newArr);
-        console.log(lastId);
-        if(newArr!==undefined){
-            oldArr.push([...newArr]);
-            console.log(oldArr);
-            localStorage.setItem('msgList',oldArr);
-            newArr=[];
-        }
+        })        
+        localStorage.setItem('lastId',lastId);
+        console.log(newArr)       
+        if(newArr.length>0){            
+            addLocalStorage(newArr);
+        }             
         
-        
-        // displayMsg.innerHTML=innerList+`</ul>`;
     }catch(err){
         console.log(err);
     }
 }
 //
 // setInterval(()=>gettingMsg(),1000)
+// 
+function addLocalStorage(newArr){   
+    let oldArr=[];       
+    if(localStorage.getItem('msgList')!==null){ 
+        console.log('lcoal')
+        const inlist=localStorage.getItem('msgList').split(',')
+        oldArr=oldArr.concat(inlist);
+    }    
+    oldArr=oldArr.concat(newArr);
+    console.log(oldArr);
+    localStorage.setItem('msgList',oldArr)
+    console.log(oldArr);
+   
+}
+// 
+
+// 
+function displayMsg(){
+    let oldArr=[];
+    const displayMsg= document.getElementById('displayMsg'); 
+    const inlist=localStorage.getItem('msgList').split(',')
+    oldArr=oldArr.concat(inlist);
+    let innerList=`<ul>`;
+    if(oldArr){                
+        oldArr.forEach(eachMsg=>{
+            innerList += `<li>${eachMsg}</li>`;
+            // console.log(eachMsg);
+        }) 
+        displayMsg.innerHTML=innerList+`</ul>`;
+    }else{
+        displayMsg.innerHTML="Send message";
+    } 
+}
 
 // 
 // 
@@ -55,11 +81,18 @@ chatMsg.addEventListener('submit',async(e)=>{
     try{
         e.preventDefault();
         const chatMessage=e.target.message.value;
-       const chatPost=await axios.post('http://localhost:3050/chat/chat',{chat:chatMessage},{headers:{'Authentication':token}});
-    
+       const chatPost=await axios.post('http://localhost:3050/chat/chat',{chat:chatMessage},{headers:{'Authentication':token}});    
         document.getElementById('message').value='';
+        // await gettingMsg();
+        displayMsg();
     }catch(err){
         console.log(err);
-    }
-   
+    }   
+})
+// 
+
+// 
+const crtGrpBtn=document.getElementById('crtGrpBtn');
+crtGrpBtn.addEventListener('click',()=>{
+    window.location.href="./createGroup.html";
 })

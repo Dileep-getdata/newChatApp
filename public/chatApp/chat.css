@@ -20,6 +20,11 @@ form input{
 form button{
     margin-top: 20px;
 }
+#displayMsg{
+    overflow-y:scroll;
+    height: 60vh;
+    /* margin-bottom: 10px; */
+}
 #displayMsg li{
     list-style-type: none;
     text-align: left;
