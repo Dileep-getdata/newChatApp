@@ -19,6 +19,7 @@ exports.crtGroup=async(req,res,next)=>{
     await UserGroup.create({
         groupId:group.id,
         userId:useId,
+        admin:true,
     });
        
     return res.status(200).json({success:true,message:'Successfully created group'})
@@ -64,3 +65,38 @@ exports.addToGroup=async(req,res,next)=>{
 
     }
 }
+// 
+
+//
+exports.deleteUser=async(req,res,next)=>{
+    const {groupId,userNo}=req.body;
+    UserGroup.findAll({where:{groupId:groupId,userId:req.user.id}})
+    .then((adminChk)=>{
+        
+        if(adminChk[0].admin){
+            Users.findAll({where:{phoneNo:userNo}})
+            .then((userDetls)=>{
+                const userID=userDetls[0].id;
+                UserGroup.destroy({where:{groupId:groupId,userId:userID}})
+                return res.status(200).json({success:true,message:"Successfully deleted"})
+            })
+            .catch(err=>console.log(err))
+        }else{
+            return res.status(404).json({success:false,message:"Wrong admin selected"});
+        }
+        
+    }) .catch(err=>console.log(err))
+    // Users.findAll({where:{phoneNo:userNo}})
+    // .then((userDetl)=>{
+    //     return userDetl.id;
+    // }).then((userId)=>{
+    //     UserGroup.findAll({where:{groupId:groupId}})
+    //     .then((noOfUsers)=>{
+    //         console.log(noOfUsers);
+    //     })
+    //     .catch(err=>console.log(err))
+    // })
+    // .catch(err=>console.log(err))
+    // console.log(userNo);
+
+} 

@@ -11,6 +11,9 @@ const Usergroup=database.define('usergroup',{
         primaryKey:true
 
     },
+    admin:{
+        type:Sequelize.BOOLEAN,
+    }
    
     
 

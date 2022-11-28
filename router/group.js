@@ -12,4 +12,6 @@ router.get('/groupDetails',authMiddleware.authentication,groupController.getGrou
 
 router.post('/addToGroup',authMiddleware.authentication,groupController.addToGroup);
 
+router.post('/delete',authMiddleware.authentication,groupController.deleteUser);
+
 module.exports=router;

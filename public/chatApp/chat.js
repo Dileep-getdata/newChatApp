@@ -8,6 +8,10 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     // 
     // gettingMsg();   
     getNumOfGroups();
+    const getUser= await axios.get('http://localhost:3050/user/userList',{headers:{'Authentication':token}});
+    const presentUser=getUser.data.presntUser;
+    localStorage.setItem('phoneNo',presentUser);
+    
    
 })
 
@@ -111,7 +115,7 @@ async function getNumOfGroups(){
     response.data.userGrp.forEach(async groupId=>{        
         grpss=await axios.get(`http://localhost:3050/group/groupDetails?groupId=${groupId.groupId}`,{headers:{'Authentication':token}});
                
-        innerHtml = `<button class="listOfGroups" onclick="groupChat(${grpss.data.userGrp.id},'${grpss.data.userGrp.name}','${grpss.data.userGrp.createdBy}')">${grpss.data.userGrp.name}<br><small>${grpss.data.userGrp.createdBy}</small></button><br>`;
+        innerHtml = `<button class="listOfGroups"  onclick="groupChat(${grpss.data.userGrp.id},'${grpss.data.userGrp.name}','${grpss.data.userGrp.createdBy}')">${grpss.data.userGrp.name}<br><small>${grpss.data.userGrp.createdBy}</small></button><br>`;
         groupContainer.innerHTML += innerHtml;
     });
      
@@ -119,10 +123,11 @@ async function getNumOfGroups(){
 // 
 
 // 
-async function groupChat(grpId,grpNme,createdBy){ 
-    const getUser= await axios.get('http://localhost:3050/user/userList',{headers:{'Authentication':token}});
-    console.log(getUser.data);
-    const inviteSection=document.getElementById('inviteSection');  
+async function groupChat(grpId,grpNme,createdBy){
+    const loclphon=localStorage.getItem('phoneNo') ;
+    
+    if(loclphon===createdBy){
+        const inviteSection=document.getElementById('inviteSection');  
     console.log(grpNme,grpId)
     document.getElementById('mainTitle').innerHTML=grpNme;   
     const invitaion=`<div  class="invitaion" style="float: left;">
@@ -135,6 +140,10 @@ async function groupChat(grpId,grpNme,createdBy){
    
     gettingMsg(grpId);
     displayMsg();
+    }else{
+        window.location.href='./chat.html';
+    }
+    
 
 }
 // 
@@ -149,12 +158,22 @@ async function inviteTo(grpId){
     let innerHtml=``;
     allUsers.forEach(user=>{
         if(presentUser!==user.phoneNo){
-            innerHtml += `<button class="listOfGroups" onclick="addToGrup('${grpId}','${user.phoneNo}')">${user.userName}</buttton>`
+            innerHtml += `<button class="listOfGroups" onclick="addToGrup('${grpId}','${user.phoneNo}')">${user.userName} </buttton><button onclick="deleteFromGrp('${grpId}','${user.phoneNo}')">X</button><br>`
             console.log(user);
         }
     })
     invitaion.innerHTML = innerHtml;
 }
+// 
+
+// 
+async function deleteFromGrp(groupId,userNo){
+    const dltUser= await axios.post('http://localhost:3050/group/delete',{groupId,userNo},{headers:{'Authentication':token}});
+    console.log(dltUser);
+}
+
+
+
 // 
 
 // 
