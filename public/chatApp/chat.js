@@ -5,18 +5,18 @@ const token=localStorage.getItem('token');
 // oldArr=localStorage.getItem('msgList').split(',');
 var lastId=localStorage.getItem('lastId');
 window.addEventListener('DOMContentLoaded', async ()=>{
-    displayMsg();
-    gettingMsg();   
-    
+    // 
+    // gettingMsg();   
+    getNumOfGroups();
    
 })
 
-async function gettingMsg(){
+async function gettingMsg(groupId){
     try{              
         let newArr=[];
         let lastId=localStorage.getItem('lastId');
-        const response=await axios.get(`http://localhost:3050/chat/chat?lastId=${lastId}`,{headers:{'Authentication':token}});
-        const usersN=response.data.users;
+        const response=await axios.get(`http://localhost:3050/chat/chat?lastId=${lastId}&groupId=${groupId}`,{headers:{'Authentication':token}});
+        
         const chatMsgs=response.data.chat;
         
         // usersN.forEach(user=>{           
@@ -29,7 +29,7 @@ async function gettingMsg(){
             lastId=chatMsg.id;
         })        
         localStorage.setItem('lastId',lastId);
-        console.log(newArr)       
+               
         if(newArr.length>0){            
             addLocalStorage(newArr);
         }             
@@ -60,7 +60,8 @@ function addLocalStorage(newArr){
 function displayMsg(){
     let oldArr=[];
     const displayMsg= document.getElementById('displayMsg'); 
-    const inlist=localStorage.getItem('msgList').split(',')
+    if(localStorage.getItem('msgList')!==null){
+        const inlist=localStorage.getItem('msgList').split(',')
     oldArr=oldArr.concat(inlist);
     let innerList=`<ul>`;
     if(oldArr){                
@@ -71,7 +72,9 @@ function displayMsg(){
         displayMsg.innerHTML=innerList+`</ul>`;
     }else{
         displayMsg.innerHTML="Send message";
-    } 
+    }
+    }
+     
 }
 
 // 
@@ -96,3 +99,66 @@ const crtGrpBtn=document.getElementById('crtGrpBtn');
 crtGrpBtn.addEventListener('click',()=>{
     window.location.href="./createGroup.html";
 })
+// 
+
+// 
+// 
+async function getNumOfGroups(){
+    const groupContainer =document.getElementById('groupContainer');
+    let innerHtml=``;
+    let grpss;
+    const response=await axios.get(`http://localhost:3050/group/nubOfGroups`,{headers:{'Authentication':token}});
+    response.data.userGrp.forEach(async groupId=>{        
+        grpss=await axios.get(`http://localhost:3050/group/groupDetails?groupId=${groupId.groupId}`,{headers:{'Authentication':token}});
+               
+        innerHtml = `<button class="listOfGroups" onclick="groupChat(${grpss.data.userGrp.id},'${grpss.data.userGrp.name}','${grpss.data.userGrp.createdBy}')">${grpss.data.userGrp.name}<br><small>${grpss.data.userGrp.createdBy}</small></button><br>`;
+        groupContainer.innerHTML += innerHtml;
+    });
+     
+}
+// 
+
+// 
+async function groupChat(grpId,grpNme,createdBy){ 
+    const getUser= await axios.get('http://localhost:3050/user/userList',{headers:{'Authentication':token}});
+    console.log(getUser.data);
+    const inviteSection=document.getElementById('inviteSection');  
+    console.log(grpNme,grpId)
+    document.getElementById('mainTitle').innerHTML=grpNme;   
+    const invitaion=`<div  class="invitaion" style="float: left;">
+    <button id="invite" onclick="inviteTo(${grpId})" >Invite</button>
+    <div id="userList">
+    </div>
+    </div>`  
+    
+    inviteSection.innerHTML=invitaion;
+   
+    gettingMsg(grpId);
+    displayMsg();
+
+}
+// 
+
+// 
+
+async function inviteTo(grpId){    
+    const invitaion=document.getElementById('userList');
+    const getUser= await axios.get('http://localhost:3050/user/userList',{headers:{'Authentication':token}});
+    const presentUser=getUser.data.presntUser;
+    const allUsers=getUser.data.listUsers;
+    let innerHtml=``;
+    allUsers.forEach(user=>{
+        if(presentUser!==user.phoneNo){
+            innerHtml += `<button class="listOfGroups" onclick="addToGrup('${grpId}','${user.phoneNo}')">${user.userName}</buttton>`
+            console.log(user);
+        }
+    })
+    invitaion.innerHTML = innerHtml;
+}
+// 
+
+// 
+async function addToGrup(grpId,userNo){
+    const addUser=await axios.post('http://localhost:3050/group/addToGroup',{grpId,userNo},{headers:{'Authentication':token}});
+    console.log(addUser);
+}

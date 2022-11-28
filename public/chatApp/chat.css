@@ -66,3 +66,27 @@ form button{
     bottom: 10px;
    margin-right: 10px;
 }
+
+/* Groups List  */
+#groupContainer,#userList{
+    margin: 2px;
+    background-color: white;
+}
+.listOfGroups{
+    width: 20vw;
+    height: 10vh;
+    color: white;
+    background-color: rgb(190, 186, 186);
+    border: none;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+.listOfGroups small{
+    font-size: 0.5rem;
+}
+
+/*  */
+.invitaion{
+    background-color: white;
+}

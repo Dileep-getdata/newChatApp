@@ -80,7 +80,6 @@ exports.postChatLogin=async (req,res)=>{
             return res.status(404).json({success:false,message:'Eamil Id is not registered'});
         }
 
-
     }catch(err){
         res.status(500).json({message:`Login error${err}`,success:false});
     }
@@ -88,3 +87,15 @@ exports.postChatLogin=async (req,res)=>{
 }
 // 
 
+// 
+exports.getUsers=async(req,res,next)=>{
+try{
+    const users= await Users.findAll({where:{login:true},attributes:['userName','phoneNo']});
+    return res.status(200).json({presntUser:req.user.phoneNo,listUsers:users});
+
+}catch(err){
+    return res.status(500).json({success:false,message:err});
+}
+    
+
+}
