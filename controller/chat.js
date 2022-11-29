@@ -2,6 +2,8 @@ const Users=require('../models/Users');
 const Chat=require('../models/Chat');
 const {Op}=require('sequelize');
 const s3services=require('../services/s3upload');
+const fs=require('fs');
+
 
 exports.chatDetails= async(req,res)=>{
     try{
@@ -11,8 +13,7 @@ exports.chatDetails= async(req,res)=>{
         if(lastIdQ==='undefined' || lastIdQ==='null'){
             lastIdQ=-1;
         }        
-        req.user.update({login:true});
-        
+        req.user.update({login:true});        
         
         const chatMsg=await Chat.findAll({where:{userId:req.user.id,groupId:grpId,id:{[Op.gt]: lastIdQ}}});
         
@@ -23,34 +24,29 @@ exports.chatDetails= async(req,res)=>{
 }
 
 exports.chatPost= async(req,res)=>{
-    try{
+    // try{
         const chatMessage=req.body.chat;
-        console.log('Chat:--',chatMessage);
+        // console.log('Chat:--',chatMessage);
         // req.user.update({login:true});
         console.log(req.user.id);
+        if(req.body.imagepath){
+            const imagePath = req.body.imagePath
+            const blob = fs.readFileSync(imagePath)
+            const filename=`${new Date()}.${imagePath.split('.')[1]}`;
+            console.log(blob,filename);
+            const fileURL=await s3Services.upLoadToS3(blob,filename);
+            return res.status(200).json({url:fileURL});
+        }
         Chat.create({
             message:chatMessage,
+            image:req.body.imagepath,
             userId:req.user.id,
         })
     //     
        return res.status(200).json();
-    }catch(err){
-        res.status(500).json({success:false,message:err});
-    }
+    // }catch(err){
+    //     res.status(500).json({success:false,message:err});
+    // }
 }
 // 
 
-exports.imageSave = async (req,res)=>{
-    try{      
-        const image_pth=await Chat.findAll();  
-    const userId=req.user.id;
-    const imagePath = req.files[0].path
-    const blob = fs.readFileSync(imagePath)
-    const filename=image_pth;
-    const fileURL=await s3Services.upLoadToS3(blob,filename);
-    // res.status(200).json({fileURL,success:true});
-    }catch(err){
-        res.status(500).json({fileURL:'',success:false,err:err});
-    }
-    
-}

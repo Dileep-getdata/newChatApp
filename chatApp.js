@@ -1,6 +1,7 @@
 const express=require('express');
 const path=require('path');
 const fs=require('fs');
+const CronJob=require('cron').CronJob;
 
 const app=express();
 
@@ -45,6 +46,21 @@ Users.belongsToMany(Groups,{through:Usergroup});
 Groups.hasMany(Chat);
 Chat.belongsTo(Groups);
 
+let job=new CronJob('1 45 23 * * *',async ()=>{
+    const chats=await Chat.findAll();
+    presentdate=new Date().getDate()
+    chats.forEach(async (chat)=>{
+        if((presentdate-1)===chat.createdAt.getDate()){
+            await ArchivedChat.create({
+                message:chat.message,
+                image:chat.image,
+                userId:chat.userId,
+            })
+            await Chat.destroy({where:{id:chat.id}});
+        }
+    })    
+    
+});
 
 sequelize 
 // .sync({force:true})

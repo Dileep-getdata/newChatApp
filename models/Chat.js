@@ -12,6 +12,9 @@ const Chat=database.define('chat',{
     },
     message:{
         type:Sequelize.STRING,
+    },
+    image:{
+        type:Sequelize.STRING,
     }
     
 
