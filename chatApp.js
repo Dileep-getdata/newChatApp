@@ -16,7 +16,7 @@ const userRouter=require('./router/users');
 const chatRouter=require('./router/chat');
 const groupRouter=require('./router/group');
 
-const Users=require('./models/users');
+const Users=require('./models/Users');
 const Chat=require('./models/Chat');
 const Groups=require('./models/groups');
 const Usergroup=require('./models/Usergroup');

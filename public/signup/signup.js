@@ -14,7 +14,7 @@ signupForm.addEventListener('submit',(e)=>{
         phoneNo:phoneNo,
         password:password,
     } 
-    axios.post(`http://localhost:3050/user/signup`,signup_details)
+    axios.post(`http://http://3.84.17.108:3050/user/signup`,signup_details)
     .then(response=>{        
             console.log(response.data.message); 
         if(response.status===200){

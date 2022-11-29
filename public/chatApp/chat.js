@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
     // 
     // gettingMsg();   
     getNumOfGroups();
-    const getUser= await axios.get('http://localhost:3050/user/userList',{headers:{'Authentication':token}});
+    const getUser= await axios.get('http://http://3.84.17.108:3050/user/userList',{headers:{'Authentication':token}});
     const presentUser=getUser.data.presntUser;
     localStorage.setItem('phoneNo',presentUser);
     
@@ -19,7 +19,7 @@ async function gettingMsg(groupId){
     try{              
         let newArr=[];
         let lastId=localStorage.getItem('lastId');
-        const response=await axios.get(`http://localhost:3050/chat/chat?lastId=${lastId}&groupId=${groupId}`,{headers:{'Authentication':token}});
+        const response=await axios.get(`http://http://3.84.17.108:3050/chat/chat?lastId=${lastId}&groupId=${groupId}`,{headers:{'Authentication':token}});
         
         const chatMsgs=response.data.chat;
         
@@ -88,7 +88,7 @@ chatMsg.addEventListener('submit',async(e)=>{
     try{
         e.preventDefault();
         const chatMessage=e.target.message.value;
-       const chatPost=await axios.post('http://localhost:3050/chat/chat',{chat:chatMessage},{headers:{'Authentication':token}});    
+       const chatPost=await axios.post('http://http://3.84.17.108:3050/chat/chat',{chat:chatMessage},{headers:{'Authentication':token}});    
         document.getElementById('message').value='';
         // await gettingMsg();
         displayMsg();
@@ -111,9 +111,9 @@ async function getNumOfGroups(){
     const groupContainer =document.getElementById('groupContainer');
     let innerHtml=``;
     let grpss;
-    const response=await axios.get(`http://localhost:3050/group/nubOfGroups`,{headers:{'Authentication':token}});
+    const response=await axios.get(`http://http://3.84.17.108:3050/group/nubOfGroups`,{headers:{'Authentication':token}});
     response.data.userGrp.forEach(async groupId=>{        
-        grpss=await axios.get(`http://localhost:3050/group/groupDetails?groupId=${groupId.groupId}`,{headers:{'Authentication':token}});
+        grpss=await axios.get(`http://http://3.84.17.108:3050/group/groupDetails?groupId=${groupId.groupId}`,{headers:{'Authentication':token}});
                
         innerHtml = `<button class="listOfGroups"  onclick="groupChat(${grpss.data.userGrp.id},'${grpss.data.userGrp.name}','${grpss.data.userGrp.createdBy}')">${grpss.data.userGrp.name}<br><small>${grpss.data.userGrp.createdBy}</small></button><br>`;
         groupContainer.innerHTML += innerHtml;
@@ -152,7 +152,7 @@ async function groupChat(grpId,grpNme,createdBy){
 
 async function inviteTo(grpId){    
     const invitaion=document.getElementById('userList');
-    const getUser= await axios.get('http://localhost:3050/user/userList',{headers:{'Authentication':token}});
+    const getUser= await axios.get('http://http://3.84.17.108:3050/user/userList',{headers:{'Authentication':token}});
     const presentUser=getUser.data.presntUser;
     const allUsers=getUser.data.listUsers;
     let innerHtml=``;
@@ -168,7 +168,7 @@ async function inviteTo(grpId){
 
 // 
 async function deleteFromGrp(groupId,userNo){
-    const dltUser= await axios.post('http://localhost:3050/group/delete',{groupId,userNo},{headers:{'Authentication':token}});
+    const dltUser= await axios.post('http://http://3.84.17.108:3050/group/delete',{groupId,userNo},{headers:{'Authentication':token}});
     console.log(dltUser);
 }
 
@@ -178,6 +178,6 @@ async function deleteFromGrp(groupId,userNo){
 
 // 
 async function addToGrup(grpId,userNo){
-    const addUser=await axios.post('http://localhost:3050/group/addToGroup',{grpId,userNo},{headers:{'Authentication':token}});
+    const addUser=await axios.post('http://http://3.84.17.108:3050/group/addToGroup',{grpId,userNo},{headers:{'Authentication':token}});
     console.log(addUser);
 }
